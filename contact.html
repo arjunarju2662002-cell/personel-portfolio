@@ -120,7 +120,7 @@
                 <div class="row gy-4">
 
                   <div class="col-md-6">
-                    <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                    <input type="text" pattern="[A-Za-z ]+" name="name" class="form-control" placeholder="Your Name" required="">
                   </div>
 
                   <div class="col-md-6 ">
@@ -169,13 +169,19 @@
   </footer>
 
   <script>
-  const form = document.getElementById("contact-form");
-  const status = document.getElementById("form-status");
+    const form = document.getElementById("contact-form");
+    const status = document.getElementById("form-status");
 
-  form.addEventListener("submit", async function(e) {
+    // 👉 block numbers while typing
+    const nameInput = document.querySelector('input[name="name"]');
+    nameInput.addEventListener("input", function () {
+    this.value = this.value.replace(/[^A-Za-z ]/g, '');
+    });
+
+    form.addEventListener("submit", async function(e) {
     e.preventDefault();
 
-    status.innerHTML = "⏳ Sending...";
+    status.innerHTML = "Sending...";
 
     const data = new FormData(form);
 
@@ -187,18 +193,19 @@
       });
 
       if (response.ok) {
-        status.innerHTML = "✅ Message sent successfully!";
+        status.innerHTML = " Message sent successfully!";
         status.style.color = "green";
         form.reset();
       } else {
-        status.innerHTML = "❌ Failed to send message.";
+        status.innerHTML = " Failed to send message.";
         status.style.color = "red";
       }
-    } catch (error) {
-      status.innerHTML = "❌ Network error.";
-      status.style.color = "red";
-    }
-  });
+    } 
+    catch (error) {
+        status.innerHTML = " Network error.";
+        status.style.color = "red";
+      }
+    });
 </script>
 
   <!-- Scroll Top -->
